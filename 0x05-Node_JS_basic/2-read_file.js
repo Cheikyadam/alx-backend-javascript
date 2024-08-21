@@ -22,7 +22,7 @@ function countStudents(filePath) {
     console.log(`Number of students: ${infos.total}`);
     for (const stClass in infos) {
       if (stClass !== 'total') {
-        console.log(`Number of students in ${stClass}: ${infos[stClass].length}. List: ${infos[stClass]}`);
+        console.log(`Number of students in ${stClass}: ${infos[stClass].length}. List: ${infos[stClass].join(', ')}`);
       }
     }
   } catch (err) {
