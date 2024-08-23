@@ -39,3 +39,24 @@ describe('GET /available_payments', function () {
   });
 
 });
+
+describe('POST /login', function () {
+
+ it('should have status code 200, and body Welcome Adam', (done) => {
+	const options = {
+  	   url: 'http://localhost:7865/login',
+  	   method: 'POST',
+  	   headers: {
+    	    'Content-Type': 'application/json'
+  	    },
+  	   body: JSON.stringify({ userName: 'Adam' })
+	 };
+        request.post(options, (error, response, body) =>{
+          assert.strictEqual(response.statusCode, 200);
+          assert.equal(body, 'Welcome Adam');
+          done();
+        });
+  });
+
+
+});
