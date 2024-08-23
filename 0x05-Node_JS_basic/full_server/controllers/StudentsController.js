@@ -1,8 +1,8 @@
 import readDatabase from '../utils';
 
-function sort(list) {
-  return list.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-}
+// function sort(list) {
+// return list.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+// }
 
 export default class StudentsController {
   static async getAllStudents(request, response) {
@@ -11,7 +11,7 @@ export default class StudentsController {
       let res = 'This is the list of our students\n';
       /* eslint-disable guard-for-in */
       for (const stClass in infos) {
-        res += `Number of students in ${stClass}: ${infos[stClass].length}. List: ${sort(infos[stClass]).join(', ')}\n`;
+        res += `Number of students in ${stClass}: ${infos[stClass].length}. List: ${infos[stClass].join(', ')}\n`;
       }
       res = res.slice(0, -1);
       response.statusCode = 200;
