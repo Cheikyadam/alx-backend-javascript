@@ -17,14 +17,17 @@ export default class StudentsController {
       response.statusCode = 200;
       response.send(res);
     } catch (error) {
-      response.status(500).json({ error: error.message });
+      response.status(500);
+      response.send(error.message);
     }
   }
 
   static async getAllStudentsByMajor(request, response) {
     const { major } = request.params;
     if (major !== 'SWE' && major !== 'CS') {
-      response.status(500).json({ error: 'Major parameter must be CS or SWE' });
+      response.status(500);
+      response.send('Major parameter must be CS or SWE');
+      // response.status(500).json({ error: 'Major parameter must be CS or SWE' });
     } else {
       try {
         const infos = await readDatabase(process.argv[2]);
@@ -32,7 +35,9 @@ export default class StudentsController {
         response.statusCode = 200;
         response.send(res);
       } catch (error) {
-        response.status(500).json({ error: error.message });
+        response.status(500);
+        response.send(error.message);
+        // response.status(500).json({ error: error.message });
       }
     }
   }
