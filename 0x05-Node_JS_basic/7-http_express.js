@@ -42,9 +42,9 @@ app.get('/students', (req, res) => {
     data = data.slice(0, -1);
     res.statusCode = 200;
     res.send(data);
-  }).catch(() => {
+  }).catch((err) => {
     res.statusCode = 404;
-    res.send('This is the list of our students');
+    res.send(`This is the list of our students\n${err}`);
   });
 });
 
