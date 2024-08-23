@@ -9,3 +9,5 @@ app.get('/', (req, res) => {
 app.listen(1245, () => {
   console.log('app running in port 1245');
 });
+
+module.exports = app;
