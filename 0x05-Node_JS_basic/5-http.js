@@ -2,34 +2,36 @@ const http = require('http');
 const fs = require('fs').promises;
 
 async function countStudents(filePath) {
-  try {
-    const data = await fs.readFile(filePath, 'utf8');
-    const dataTab = data.split('\n');
-    const infos = { total: 0 };
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8').then((data) => {
+      const dataTab = data.split('\n');
+      const infos = { total: 0 };
 
-    for (let i = 1; i < dataTab.length; i += 1) {
-      const student = dataTab[i];
-      if (student !== '') {
-        const stData = student.split(',');
-        infos.total += 1;
-        const curClass = stData[3];
-        if (!(curClass in infos)) {
-          infos[curClass] = [stData[0]];
-        } else {
-          infos[curClass].push(stData[0]);
+      for (let i = 1; i < dataTab.length; i += 1) {
+        const student = dataTab[i];
+        if (student !== '') {
+          const stData = student.split(',');
+          infos.total += 1;
+          const curClass = stData[3];
+          if (!(curClass in infos)) {
+            infos[curClass] = [stData[0]];
+          } else {
+            infos[curClass].push(stData[0]);
+          }
         }
       }
-    }
-    let res = `Number of students: ${infos.total}\n`;
-    for (const stClass in infos) {
-      if (stClass !== 'total') {
-        res += `Number of students in ${stClass}: ${infos[stClass].length}. List: ${infos[stClass].join(', ')}\n`;
+      let res = `Number of students: ${infos.total}\n`;
+      for (const stClass in infos) {
+        if (stClass !== 'total') {
+          res += `Number of students in ${stClass}: ${infos[stClass].length}. List: ${infos[stClass].join(', ')}\n`;
+        }
       }
-    }
-    return res;
-  } catch (err) {
-    throw new Error('Cannot load the database');
-  }
+      resolve(res);
+    })
+      .catch(() => {
+        reject(new Error('Cannot load the database'));
+      });
+  });
 }
 
 const app = http.createServer((req, res) => {
@@ -49,8 +51,8 @@ const app = http.createServer((req, res) => {
       res.statusCode = 200;
       res.end(data);
     }).catch((error) => {
-      res.statusCode = 404;
-      res.end(error);
+      res.statusCode = 500;
+      res.end(error.message);
     });
   }
 });
