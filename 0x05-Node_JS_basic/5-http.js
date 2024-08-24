@@ -48,9 +48,9 @@ const app = http.createServer((req, res) => {
       data = data.slice(0, -1);
       res.statusCode = 200;
       res.end(data);
-    }).catch(() => {
+    }).catch((error) => {
       res.statusCode = 404;
-      res.end('');
+      res.end(error);
     });
   }
 });
